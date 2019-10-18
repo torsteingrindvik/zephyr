@@ -7,13 +7,14 @@ project(sockets_echo_client)
 
 if(CONFIG_MBEDTLS_KEY_EXCHANGE_PSK_ENABLED AND
     (CONFIG_NET_SAMPLE_PSK_HEADER_FILE STREQUAL "dummy_psk.h"))
-  message(WARNING "
-      ----------------------------------------------------------
-      --- WARNING: Using dummy PSK! Only suitable for        ---
-      --- development. Set NET_SAMPLE_PSK_HEADER_FILE to use ---
-      --- own pre-shared key.                                ---
-      ----------------------------------------------------------"
+  add_custom_target(development_psk
+    COMMAND ${CMAKE_COMMAND} -E echo "----------------------------------------------------------"
+    COMMAND ${CMAKE_COMMAND} -E echo "--- WARNING: Using dummy PSK! Only suitable for        ---"
+    COMMAND ${CMAKE_COMMAND} -E echo "--- development. Set NET_SAMPLE_PSK_HEADER_FILE to use ---"
+    COMMAND ${CMAKE_COMMAND} -E echo "--- own pre-shared key.                                ---"
+    COMMAND ${CMAKE_COMMAND} -E echo "----------------------------------------------------------"
   )
+  add_dependencies(app development_psk)
 endif()
 
 target_sources(                     app PRIVATE src/echo-client.c)
