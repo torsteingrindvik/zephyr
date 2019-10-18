@@ -5,6 +5,17 @@ cmake_minimum_required(VERSION 3.13.1)
 include($ENV{ZEPHYR_BASE}/cmake/app/boilerplate.cmake NO_POLICY_SCOPE)
 project(sockets_echo_client)
 
+if(CONFIG_MBEDTLS_KEY_EXCHANGE_PSK_ENABLED AND
+    (CONFIG_NET_SAMPLE_PSK_HEADER_FILE STREQUAL "dummy_psk.h"))
+  message(WARNING "
+      ----------------------------------------------------------
+      --- WARNING: Using dummy PSK! Only suitable for        ---
+      --- development. Set NET_SAMPLE_PSK_HEADER_FILE to use ---
+      --- own pre-shared key.                                ---
+      ----------------------------------------------------------"
+  )
+endif()
+
 target_sources(                     app PRIVATE src/echo-client.c)
 target_sources_ifdef(CONFIG_NET_UDP app PRIVATE src/udp.c)
 target_sources_ifdef(CONFIG_NET_TCP app PRIVATE src/tcp.c)
