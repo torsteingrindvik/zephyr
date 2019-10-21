@@ -230,15 +230,15 @@ static void init_app(void)
 #if defined(CONFIG_MBEDTLS_KEY_EXCHANGE_PSK_ENABLED)
 	err = tls_credential_add(PSK_TAG,
 				TLS_CREDENTIAL_PSK,
-				client_psk,
-				sizeof(client_psk));
+				psk,
+				sizeof(psk));
 	if (err < 0) {
 		LOG_ERR("Failed to register PSK: %d", err);
 	}
 	err = tls_credential_add(PSK_TAG,
 				TLS_CREDENTIAL_PSK_ID,
-				client_psk_id,
-				sizeof(client_psk_id) - 1);
+				psk_id,
+				sizeof(psk_id) - 1);
 	if (err < 0) {
 		LOG_ERR("Failed to register PSK ID: %d", err);
 	}
